@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1696087703350-1
+      author: maria (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: courses_id_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: author
+                  type: VARCHAR(255)
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+            tableName: courses
+  - changeSet:
+      id: 1696087703350-2
+      author: maria (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: lesson_id_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: course_id
+                  type: BIGINT
+              - column:
+                  name: text
+                  type: TEXT
+            tableName: lessons
+  - changeSet:
+      id: 1696087703350-3
+      author: maria (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: course_id
+            baseTableName: lessons
+            constraintName: fk_lessons_courses
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: courses
+            validate: true
+

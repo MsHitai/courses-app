@@ -1,0 +1,116 @@
+databaseChangeLog:
+  - changeSet:
+      id: '2023093001'
+      author: 'Maria Trush'
+      changes:
+        - createTable:
+            tableName: 'courses'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: courses_id_pk
+              - column:
+                  name: author
+                  type: varchar(255)
+              - column:
+                  name: title
+                  type: varchar(255)
+  - changeSet:
+      id: '2023093002'
+      author: 'Maria Trush'
+      changes:
+        - createTable:
+            tableName: 'lessons'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: lesson_id_pk
+              - column:
+                  name: name
+                  type: varchar(255)
+
+  - changeSet:
+      id: '2023093003'
+      author: 'Maria Trush'
+      changes:
+        - addColumn:
+            tableName: 'lessons'
+            columns:
+              - column:
+                  name: title
+                  type: varchar(255)
+        - dropColumn:
+            tableName: 'lessons'
+            columns:
+              - column:
+                  name: name
+                  type: varchar(255)
+
+  - changeSet:
+      id: '2023093004'
+      author: 'Maria Trush'
+      changes:
+        - addColumn:
+            tableName: 'lessons'
+            columns:
+              - column:
+                  name: text
+                  type: TEXT
+        - addColumn:
+            tableName: 'lessons'
+            columns:
+              - column:
+                  name: course_id
+                  type: bigint
+        - addForeignKeyConstraint:
+            baseTableName: 'lessons'
+            baseColumnNames: course_id
+            constraintName: fk_lessons_courses
+            referencedTableName: 'courses'
+            referencedColumnNames: id
+
+  - changeSet:
+      id: '2023093005'
+      author: 'Maria Trush'
+      changes:
+        - createTable:
+            tableName: 'users'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_id_pk
+              - column:
+                  name: username
+                  type: varchar(255)
+        - createTable:
+            tableName: 'courses_users'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_to_courses_pk
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: user_id
+                    referencedTableName: users
+                    referencedColumnNames: id
+              - column:
+                  name: course_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: course_id
+                    referencedTableName: courses
+                    referencedColumnNames: id
