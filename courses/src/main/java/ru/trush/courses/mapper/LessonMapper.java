@@ -15,4 +15,12 @@ public class LessonMapper {
                 .courseId(lesson.getCourse().getId())
                 .build();
     }
+
+    public Lesson mapToLesson(LessonDto dto) {
+        return Lesson.builder()
+                .id(dto.getId())
+                .text(dto.getText())
+                .title(dto.getTitle())
+                .build();
+    }
 }

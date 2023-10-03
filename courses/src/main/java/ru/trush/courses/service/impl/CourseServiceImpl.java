@@ -3,10 +3,13 @@ package ru.trush.courses.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.trush.courses.dto.CourseDto;
+import ru.trush.courses.dto.CourseWithUsersDto;
 import ru.trush.courses.dto.LessonDto;
+import ru.trush.courses.dto.UserDto;
 import ru.trush.courses.exception.DataNotFoundException;
 import ru.trush.courses.mapper.CourseMapper;
 import ru.trush.courses.mapper.LessonMapper;
+import ru.trush.courses.mapper.UserMapper;
 import ru.trush.courses.model.Course;
 import ru.trush.courses.model.Lesson;
 import ru.trush.courses.model.User;
@@ -26,8 +29,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDto assignUser(Long courseId, Long userId) {
         User user = checkUserId(userId);
-        Course course = courseRepository.findByIdWithAllFields(courseId).orElseThrow(() -> new
-                DataNotFoundException(String.format("Course with the id=%d is not in the database", courseId)));
+        Course course = checkFullCourse(courseId);
         user.getCourses().add(course);
         course.getUsers().add(user);
         List<Lesson> lessons = course.getLessons();
@@ -35,13 +37,41 @@ public class CourseServiceImpl implements CourseService {
         return CourseMapper.mapToDto(course, lessonDtos);
     }
 
+    @Override
+    public CourseDto addCourse(CourseDto dto) {
+        List<Lesson> lessons = dto.getLessons().stream().map(LessonMapper::mapToLesson).toList();
+        Course course = CourseMapper.mapToCourse(dto, lessons);
+        return CourseMapper.mapToDto(courseRepository.save(course), dto.getLessons());
+    }
+
+    @Override
+    public CourseDto updateCourse(Long courseId, CourseDto dto) {
+        checkCourseId(courseId);
+        List<Lesson> lessons = dto.getLessons().stream().map(LessonMapper::mapToLesson).toList();
+        Course course = CourseMapper.mapToCourse(dto, lessons);
+        return CourseMapper.mapToDto(courseRepository.save(course), dto.getLessons());
+    }
+
+    @Override
+    public CourseWithUsersDto findCourseById(Long courseId) {
+        Course course = checkFullCourse(courseId);
+        List<LessonDto> lessons = course.getLessons().stream().map(LessonMapper::mapToDto).toList();
+        List<UserDto> users = course.getUsers().stream().map(UserMapper::mapToDto).toList();
+        return CourseMapper.mapToDtoWithUsers(course, users, lessons);
+    }
+
     private User checkUserId(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new
                 DataNotFoundException(String.format("User with the id=%d is not in the database", userId)));
     }
 
-    private Course checkCourseId(Long courseId) {
-        return courseRepository.findById(courseId).orElseThrow(() -> new
+    private void checkCourseId(Long courseId) {
+        courseRepository.findById(courseId).orElseThrow(() -> new
+                DataNotFoundException(String.format("Course with the id=%d is not in the database", courseId)));
+    }
+
+    private Course checkFullCourse(Long courseId) {
+        return courseRepository.findByIdWithAllFields(courseId).orElseThrow(() -> new
                 DataNotFoundException(String.format("Course with the id=%d is not in the database", courseId)));
     }
 

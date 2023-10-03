@@ -2,7 +2,9 @@ package ru.trush.courses.mapper;
 
 import lombok.experimental.UtilityClass;
 import ru.trush.courses.dto.CourseDto;
+import ru.trush.courses.dto.CourseWithUsersDto;
 import ru.trush.courses.dto.LessonDto;
+import ru.trush.courses.dto.UserDto;
 import ru.trush.courses.model.Course;
 import ru.trush.courses.model.Lesson;
 
@@ -20,12 +22,22 @@ public class CourseMapper {
                 .build();
     }
 
-    public static CourseDto mapToDto(Course course, List<LessonDto> lessonDtos) {
+    public CourseDto mapToDto(Course course, List<LessonDto> lessonDtos) {
         return CourseDto.builder()
                 .id(course.getId())
                 .author(course.getAuthor())
                 .title(course.getTitle())
                 .lessons(lessonDtos)
+                .build();
+    }
+
+    public CourseWithUsersDto mapToDtoWithUsers(Course course, List<UserDto> users, List<LessonDto> lessonDtos) {
+        return CourseWithUsersDto.builder()
+                .id(course.getId())
+                .author(course.getAuthor())
+                .title(course.getTitle())
+                .lessons(lessonDtos)
+                .users(users)
                 .build();
     }
 }

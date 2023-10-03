@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CourseDto {
+public class CourseWithUsersDto {
     private Long id;
     @NotBlank
     @NotNull
@@ -22,4 +22,5 @@ public class CourseDto {
     @NotNull
     private String title;
     private List<LessonDto> lessons;
+    private List<UserDto> users;
 }
