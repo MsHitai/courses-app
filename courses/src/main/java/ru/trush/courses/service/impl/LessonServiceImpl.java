@@ -20,7 +20,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDto addLesson(Long courseId, LessonDto dto) {
-        Course course = checkCourseId(courseId);
+        Course course = checkFullCourse(courseId);
         Lesson lesson = LessonMapper.mapToLesson(dto);
         lesson.setCourse(course);
         course.getLessons().add(lesson);
@@ -31,8 +31,9 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public LessonDto updateLesson(Long courseId, Long lessonId, LessonDto dto) {
         Course course = checkCourseId(courseId);
-        checkLessonId(lessonId);
-        Lesson lesson = LessonMapper.mapToLesson(dto);
+        Lesson lesson = checkLessonId(lessonId);
+        lesson.setText(dto.getText());
+        lesson.setTitle(dto.getTitle());
         lesson.setCourse(course);
         return LessonMapper.mapToDto(lessonRepository.save(lesson));
     }
@@ -49,8 +50,13 @@ public class LessonServiceImpl implements LessonService {
                 DataNotFoundException(String.format("Course with the id=%d is not in the database", courseId)));
     }
 
-    private void checkLessonId(Long lessonId) {
-        lessonRepository.findById(lessonId).orElseThrow(() -> new
+    private Lesson checkLessonId(Long lessonId) {
+        return lessonRepository.findById(lessonId).orElseThrow(() -> new
                 DataNotFoundException(String.format("Lesson with the id=%d is not in the database", lessonId)));
+    }
+
+    private Course checkFullCourse(Long courseId) {
+        return courseRepository.findByIdWithAllFields(courseId).orElseThrow(() -> new
+                DataNotFoundException(String.format("Course with the id=%d is not in the database", courseId)));
     }
 }

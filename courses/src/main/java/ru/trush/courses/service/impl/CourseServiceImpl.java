@@ -18,6 +18,7 @@ import ru.trush.courses.repository.UserRepository;
 import ru.trush.courses.service.CourseService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = checkFullCourse(courseId);
         user.getCourses().add(course);
         course.getUsers().add(user);
+        courseRepository.save(course);
         List<Lesson> lessons = course.getLessons();
         List<LessonDto> lessonDtos = lessons.stream().map(LessonMapper::mapToDto).toList();
         return CourseMapper.mapToDto(course, lessonDtos);
@@ -60,8 +62,15 @@ public class CourseServiceImpl implements CourseService {
         return CourseMapper.mapToDtoWithUsers(course, users, lessons);
     }
 
+    @Override
+    public List<CourseDto> findAllCourses() {
+        return courseRepository.findAll().stream()
+                .map(CourseMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
     private User checkUserId(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new
+        return userRepository.findByIdWithCourses(userId).orElseThrow(() -> new
                 DataNotFoundException(String.format("User with the id=%d is not in the database", userId)));
     }
 

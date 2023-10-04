@@ -11,6 +11,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findByTitleLike(String title);
 
-    @Query("from Course c join fetch c.users join fetch c.lessons where c.id = :id")
+    @Query("from Course c left join fetch c.users left join fetch c.lessons where c.id = :id")
     Optional<Course> findByIdWithAllFields(Long id);
 }

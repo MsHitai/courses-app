@@ -31,6 +31,14 @@ public class CourseMapper {
                 .build();
     }
 
+    public CourseDto mapToDto(Course course) {
+        return CourseDto.builder()
+                .id(course.getId())
+                .author(course.getAuthor())
+                .title(course.getTitle())
+                .build();
+    }
+
     public CourseWithUsersDto mapToDtoWithUsers(Course course, List<UserDto> users, List<LessonDto> lessonDtos) {
         return CourseWithUsersDto.builder()
                 .id(course.getId())
