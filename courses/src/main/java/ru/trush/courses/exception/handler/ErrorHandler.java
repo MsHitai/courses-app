@@ -2,7 +2,6 @@ package ru.trush.courses.exception.handler;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Generated;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -72,15 +71,10 @@ public class ErrorHandler {
                 LocalDateTime.now());
     }
 
-    @Getter
-    static class ApiError {
-        private final String status;
-        private final String reason;
-        private final String message;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private final LocalDateTime timestamp;
 
-        public ApiError(String status, String reason, String message, LocalDateTime timestamp) {
+    record ApiError(String status, String reason, String message,
+                    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime timestamp) {
+        ApiError(String status, String reason, String message, LocalDateTime timestamp) {
             this.status = status;
             this.reason = reason;
             this.message = message;

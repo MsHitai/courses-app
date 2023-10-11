@@ -2,6 +2,7 @@ package ru.trush.courses.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.trush.courses.dto.UserDto;
 import ru.trush.courses.mapper.UserMapper;
 import ru.trush.courses.model.User;
@@ -11,6 +12,7 @@ import ru.trush.courses.service.UserService;
 import java.util.HashSet;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 

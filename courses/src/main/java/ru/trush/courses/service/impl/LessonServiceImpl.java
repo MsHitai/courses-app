@@ -2,6 +2,7 @@ package ru.trush.courses.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.trush.courses.dto.LessonDto;
 import ru.trush.courses.exception.DataNotFoundException;
 import ru.trush.courses.mapper.LessonMapper;
@@ -12,6 +13,7 @@ import ru.trush.courses.repository.LessonRepository;
 import ru.trush.courses.service.LessonService;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
 

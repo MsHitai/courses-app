@@ -2,6 +2,7 @@ package ru.trush.courses.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.trush.courses.dto.CourseDto;
 import ru.trush.courses.dto.CourseWithUsersDto;
 import ru.trush.courses.dto.LessonDto;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
