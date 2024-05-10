@@ -53,7 +53,7 @@ jobs:
 
       - name: Run Postman Tests
         run: |
-          newman run 'CoursesTest.postman_collection.json' -r htmlextra
+          newman run CoursesTest.postman_collection.json -r htmlextra
 
       - name: Run Docker Compose Down
         run: |
