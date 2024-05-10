@@ -22,6 +22,12 @@ jobs:
         run: |
           sudo apt-get install -y maven
 
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install newman
+        run: npm install -g newman
+
       - name: Build with Maven
         run: |
           mvn clean package
@@ -30,15 +36,19 @@ jobs:
         run: |
           mvn checkstyle:check
 
-      - name: Run Docker Compose
+      - name: Run Docker Compose Up
         run: |
           docker-compose -f courses/docker/docker-compose.yml up
 
       - name: Run Postman Tests
-        uses: postman/pm@v2.4.3
-        with:
-          collection: 'courses/postman/CoursesTest.postman_collection.json'
-          tests: 'courses/postman/CoursesTest.postman_ tests.json'
+        run: |
+          npm run start:dev &
+          sleep 60
+          newman run 'courses/postman/CoursesTest.postman_collection.json'
+
+      - name: Run Docker Compose Down
+        run: |
+          docker-compose -f courses/docker/docker-compose.yml down
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
