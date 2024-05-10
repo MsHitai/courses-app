@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   courses-app:
-    build: ../courses/courses
+    build: ./courses
     ports:
       - "8080:8080"
     environment:
