@@ -53,9 +53,7 @@ jobs:
 
       - name: Run Postman Tests
         run: |
-          npm run start:dev &
-          sleep 60
-          newman run 'CoursesTest.postman_collection.json'
+          newman run 'CoursesTest.postman_collection.json' -r htmlextra
 
       - name: Run Docker Compose Down
         run: |
