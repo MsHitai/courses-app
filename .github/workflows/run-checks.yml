@@ -42,11 +42,9 @@ jobs:
           docker-compose -f docker-compose.yml up -d
 
       - name: Run Postman Tests
-        id: run-newman
-        uses: anthonyvscode/newman-action@v1
+        uses: matt-ball/newman-action@master
         with:
-          collection: postman-tests.json
-          reporters: cli
+          collection: https://schema.getpostman.com/json/collection/v2.1.0/collection.json
 
       - name: Run Docker Compose Down
         run: |
