@@ -44,7 +44,11 @@ jobs:
       - name: Run Postman Tests
         uses: matt-ball/newman-action@master
         with:
-          collection: https://schema.getpostman.com/json/collection/v2.1.0/collection.json
+          collection: postman-tests.json
+          environment: postman-environment.json
+          reporters: '["emojitrain"]'
+          delayRequest: 5000
+          envVar: '[{ "key": "url", "value": "http://localhost:8080" }]'
 
       - name: Run Docker Compose Down
         run: |
