@@ -17,9 +17,12 @@
 							"    pm.response.to.be.ok;    \r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.response.to.be.json;\r",
-							"});"
+							"}, {}, { timeout: 10000 });"
 						],
-						"type": "text/javascript"
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -27,7 +30,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/courses",
+					"raw": "http://localhost:8080/courses",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -50,9 +54,12 @@
 							"    pm.response.to.be.ok;    \r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.response.to.be.json;\r",
-							"});"
+							"}, {}, { timeout: 10000 });"
 						],
-						"type": "text/javascript"
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -69,7 +76,8 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/courses",
+					"raw": "http://localhost:8080/courses",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -92,9 +100,12 @@
 							"    pm.response.to.be.ok;    \r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.response.to.be.json;\r",
-							"});"
+							"}, {}, { timeout: 10000 });"
 						],
-						"type": "text/javascript"
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -102,7 +113,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/courses/1",
+					"raw": "http://localhost:8080/courses/1",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -126,8 +138,10 @@
 							"    pm.response.to.be.ok;    \r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.response.to.be.json;\r",
-							"});"
+							"}, {}, { timeout: 10000 });"
 						],
+						"retries": 3,
+						"retryDelay": 2000,
 						"type": "text/javascript"
 					}
 				}
@@ -159,6 +173,129 @@
 			"response": []
 		},
 		{
+			"name": "FindUserById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+							"    pm.response.to.be.ok;    \r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"}, {}, { timeout: 10000 });"
+						],
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+							"    pm.response.to.be.ok;    \r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"}, {}, { timeout: 10000 });"
+						],
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"username\": \"Maria\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/1/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindAllUsers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+							"    pm.response.to.be.ok;    \r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"}, {}, { timeout: 10000 });"
+						],
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Assign a user to the course",
 			"event": [
 				{
@@ -169,9 +306,12 @@
 							"    pm.response.to.be.ok;    \r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.response.to.be.json;\r",
-							"});"
+							"}, {}, { timeout: 10000 });"
 						],
-						"type": "text/javascript"
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -179,7 +319,8 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/courses/1/assign?userId=1",
+					"raw": "http://localhost:8080/courses/1/assign?userId=1",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -210,9 +351,12 @@
 							"    pm.response.to.be.ok;    \r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.response.to.be.json;\r",
-							"});"
+							"}, {}, { timeout: 10000 });"
 						],
-						"type": "text/javascript"
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -229,7 +373,8 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/courses/1/lessons",
+					"raw": "http://localhost:8080/courses/1/lessons",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -254,9 +399,12 @@
 							"    pm.response.to.be.ok;    \r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.response.to.be.json;\r",
-							"});"
+							"}, {}, { timeout: 10000 });"
 						],
-						"type": "text/javascript"
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -273,7 +421,8 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/courses/1/lessons/1",
+					"raw": "http://localhost:8080/courses/1/lessons/1",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -299,9 +448,12 @@
 							"    pm.response.to.be.ok;    \r",
 							"    pm.response.to.be.withBody;\r",
 							"    pm.response.to.be.json;\r",
-							"});"
+							"}, {}, { timeout: 10000 });"
 						],
-						"type": "text/javascript"
+						"retries": 3,
+						"retryDelay": 2000,
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -318,7 +470,8 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/courses/1/lessons",
+					"raw": "http://localhost:8080/courses/1/lessons",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -343,7 +496,8 @@
 							"    pm.response.to.be.ok;   \r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -351,7 +505,8 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/courses/1/lessons/2",
+					"raw": "http://localhost:8080/courses/1/lessons/2",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],

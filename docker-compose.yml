@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  courses-app:
+    build: ./courses
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://courses-db:5432/courses
+      - SPRING_DATASource_USERNAME=courses
+      - SPRING_DATASOURCE_PASSWORD=courses
+    depends_on:
+      courses-db:
+        condition: service_healthy
+
+  courses-db:
+    image: postgres:14-alpine
+    container_name: courses-db
+    ports:
+      - "6541:5432"
+    environment:
+      POSTGRES_USER: courses
+      POSTGRES_PASSWORD: courses
+      POSTGRES_DB: courses
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U courses" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/
