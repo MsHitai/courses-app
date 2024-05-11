@@ -56,7 +56,13 @@ jobs:
 
       - name: Run POSTMAN collection
         run: |
-          newman run postman-tests.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html
+          newman run postman-tests.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+
+      - name: Output the run Details
+        uses: actions/upload-artifact@v2
+        with:
+          name: RunReports
+          path: testResults
 
       - name: Run Docker Compose Down
         run: |
