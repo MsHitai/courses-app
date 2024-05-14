@@ -7,13 +7,15 @@
 > оценивать статистику прохождения заданий и другое.
  
 **Используются**:
-* Spring Boot ver.3.1.4
+* Spring Boot ver.3.2.4
 * Java 21
 * PostgreSQL
 * JPA Hibernate
 * Maven
 * Liquibase
-* Lombok
+* GitHub Actions
+* Docker
+* Kubernetes configs
 
 # Courses-Service:
 * Позволяет добавлять / редактировать курсы админам
