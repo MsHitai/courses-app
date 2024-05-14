@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: courses-app-deployment
+  labels:
+    app: courses-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: courses-app
+  template:
+    metadata:
+      labels:
+        app: courses-app
+    spec:
+      containers:
+      - name: courses-app
+        image: mshitai/courses-app:v0.0.1
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: courses-app-config
+              key: spring.datasource.url
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: courses-app-service
+spec:
+  selector:
+    app: courses-app
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000
