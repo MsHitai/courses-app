@@ -1,7 +1,8 @@
 version: '3.8'
 services:
   courses-app:
-    build: mshitai/courses-app:v0.0.1
+    image: mshitai/courses-app:v0.0.1
+    container_name: courses-app
     ports:
       - "8080:8080"
     environment:
