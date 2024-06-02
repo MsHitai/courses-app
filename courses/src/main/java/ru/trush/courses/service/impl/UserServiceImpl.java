@@ -21,18 +21,20 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final UserMapper userMapper;
+
     @Override
     @Transactional
     public UserDto addUser(UserDto dto) {
-        User user = UserMapper.mapToUser(dto);
+        User user = userMapper.mapToUser(dto);
         user.setCourses(new HashSet<>());
-        return UserMapper.mapToDto(userRepository.save(user));
+        return userMapper.mapToDto(userRepository.save(user));
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserDto getUserById(Long id) {
-        return UserMapper.mapToDto(getUserOrElseThrow(id));
+        return userMapper.mapToDto(getUserOrElseThrow(id));
     }
 
 
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<UserDto> findAllUsers() {
         return userRepository.findAll().stream()
-                .map(UserMapper::mapToDto)
+                .map(userMapper::mapToDto)
                 .toList();
     }
 
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(Long id, UserDto dto) {
         User user = getUserOrElseThrow(id);
         user.setUsername(dto.getUsername());
-        return UserMapper.mapToDto(userRepository.save(user));
+        return userMapper.mapToDto(userRepository.save(user));
     }
 
     /**

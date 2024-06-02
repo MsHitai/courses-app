@@ -1,6 +1,6 @@
 package ru.trush.courses.mapper;
 
-import lombok.experimental.UtilityClass;
+import org.mapstruct.Mapper;
 import ru.trush.courses.dto.CourseDto;
 import ru.trush.courses.dto.CourseWithUsersDto;
 import ru.trush.courses.dto.LessonDto;
@@ -10,10 +10,10 @@ import ru.trush.courses.model.Lesson;
 
 import java.util.List;
 
-@UtilityClass
-public class CourseMapper {
+@Mapper(componentModel = "spring")
+public interface CourseMapper {
 
-    public Course mapToCourse(CourseDto dto, List<Lesson> lessons) {
+    default Course mapToCourse(CourseDto dto, List<Lesson> lessons) {
         return Course.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
@@ -22,7 +22,7 @@ public class CourseMapper {
                 .build();
     }
 
-    public CourseDto mapToDto(Course course, List<LessonDto> lessonDtos) {
+    default CourseDto mapToDto(Course course, List<LessonDto> lessonDtos) {
         return CourseDto.builder()
                 .id(course.getId())
                 .author(course.getAuthor())
@@ -31,15 +31,9 @@ public class CourseMapper {
                 .build();
     }
 
-    public CourseDto mapToDto(Course course) {
-        return CourseDto.builder()
-                .id(course.getId())
-                .author(course.getAuthor())
-                .title(course.getTitle())
-                .build();
-    }
+    CourseDto mapToDto(Course course);
 
-    public CourseWithUsersDto mapToDtoWithUsers(Course course, List<UserDto> users, List<LessonDto> lessonDtos) {
+    default CourseWithUsersDto mapToDtoWithUsers(Course course, List<UserDto> users, List<LessonDto> lessonDtos) {
         return CourseWithUsersDto.builder()
                 .id(course.getId())
                 .author(course.getAuthor())
