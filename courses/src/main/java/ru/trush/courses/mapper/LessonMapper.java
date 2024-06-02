@@ -1,26 +1,16 @@
 package ru.trush.courses.mapper;
 
-import lombok.experimental.UtilityClass;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import ru.trush.courses.dto.LessonDto;
 import ru.trush.courses.model.Lesson;
 
-@UtilityClass
-public class LessonMapper {
+@Mapper(componentModel = "spring", uses = CourseMapper.class)
+public interface LessonMapper {
 
-    public LessonDto mapToDto(Lesson lesson) {
-        return LessonDto.builder()
-                .id(lesson.getId())
-                .title(lesson.getTitle())
-                .text(lesson.getText())
-                .courseId(lesson.getCourse().getId())
-                .build();
-    }
+    @Mapping(target = "courseId", source = "course.id")
+    LessonDto mapToDto(Lesson lesson);
 
-    public Lesson mapToLesson(LessonDto dto) {
-        return Lesson.builder()
-                .id(dto.getId())
-                .text(dto.getText())
-                .title(dto.getTitle())
-                .build();
-    }
+    @Mapping(target = "course.id", source = "courseId")
+    Lesson mapToLesson(LessonDto dto);
 }

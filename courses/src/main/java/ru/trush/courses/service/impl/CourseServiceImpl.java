@@ -29,6 +29,10 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
 
+    private final LessonMapper lessonMapper;
+    private final CourseMapper courseMapper;
+    private final UserMapper userMapper;
+
     @Override
     public CourseDto assignUser(Long courseId, Long userId) {
         User user = checkUserId(userId);
@@ -37,37 +41,37 @@ public class CourseServiceImpl implements CourseService {
         course.getUsers().add(user);
         courseRepository.save(course);
         List<Lesson> lessons = course.getLessons();
-        List<LessonDto> lessonDtos = lessons.stream().map(LessonMapper::mapToDto).toList();
-        return CourseMapper.mapToDto(course, lessonDtos);
+        List<LessonDto> lessonDtos = lessons.stream().map(lessonMapper::mapToDto).toList();
+        return courseMapper.mapToDto(course, lessonDtos);
     }
 
     @Override
     public CourseDto addCourse(CourseDto dto) {
-        List<Lesson> lessons = dto.getLessons().stream().map(LessonMapper::mapToLesson).toList();
-        Course course = CourseMapper.mapToCourse(dto, lessons);
-        return CourseMapper.mapToDto(courseRepository.save(course), dto.getLessons());
+        List<Lesson> lessons = dto.getLessons().stream().map(lessonMapper::mapToLesson).toList();
+        Course course = courseMapper.mapToCourse(dto, lessons);
+        return courseMapper.mapToDto(courseRepository.save(course), dto.getLessons());
     }
 
     @Override
     public CourseDto updateCourse(Long courseId, CourseDto dto) {
         checkCourseId(courseId);
-        List<Lesson> lessons = dto.getLessons().stream().map(LessonMapper::mapToLesson).toList();
-        Course course = CourseMapper.mapToCourse(dto, lessons);
-        return CourseMapper.mapToDto(courseRepository.save(course), dto.getLessons());
+        List<Lesson> lessons = dto.getLessons().stream().map(lessonMapper::mapToLesson).toList();
+        Course course = courseMapper.mapToCourse(dto, lessons);
+        return courseMapper.mapToDto(courseRepository.save(course), dto.getLessons());
     }
 
     @Override
     public CourseWithUsersDto findCourseById(Long courseId) {
         Course course = checkFullCourse(courseId);
-        List<LessonDto> lessons = course.getLessons().stream().map(LessonMapper::mapToDto).toList();
-        List<UserDto> users = course.getUsers().stream().map(UserMapper::mapToDto).toList();
-        return CourseMapper.mapToDtoWithUsers(course, users, lessons);
+        List<LessonDto> lessons = course.getLessons().stream().map(lessonMapper::mapToDto).toList();
+        List<UserDto> users = course.getUsers().stream().map(userMapper::mapToDto).toList();
+        return courseMapper.mapToDtoWithUsers(course, users, lessons);
     }
 
     @Override
     public List<CourseDto> findAllCourses() {
         return courseRepository.findAll().stream()
-                .map(CourseMapper::mapToDto)
+                .map(courseMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 

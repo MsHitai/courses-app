@@ -2,12 +2,14 @@ package ru.trush.courses.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class LessonDto {
@@ -22,13 +24,6 @@ public class LessonDto {
     private String text;
     @NotNull
     private Long courseId;
-
-    public LessonDto(Long id, String title, String text, Long courseId) {
-        this.id = id;
-        this.title = title;
-        this.text = text;
-        this.courseId = courseId;
-    }
 
     public LessonDto(Long id, String title, Long courseId) {
         this.id = id;

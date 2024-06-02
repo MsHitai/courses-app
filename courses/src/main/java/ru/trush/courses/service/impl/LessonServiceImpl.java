@@ -20,14 +20,16 @@ public class LessonServiceImpl implements LessonService {
     private final CourseRepository courseRepository;
     private final LessonRepository lessonRepository;
 
+    private final LessonMapper lessonMapper;
+
     @Override
     public LessonDto addLesson(Long courseId, LessonDto dto) {
         Course course = checkFullCourse(courseId);
-        Lesson lesson = LessonMapper.mapToLesson(dto);
+        Lesson lesson = lessonMapper.mapToLesson(dto);
         lesson.setCourse(course);
         course.getLessons().add(lesson);
         courseRepository.save(course);
-        return LessonMapper.mapToDto(lessonRepository.save(lesson));
+        return lessonMapper.mapToDto(lessonRepository.save(lesson));
     }
 
     @Override
@@ -37,7 +39,7 @@ public class LessonServiceImpl implements LessonService {
         lesson.setText(dto.getText());
         lesson.setTitle(dto.getTitle());
         lesson.setCourse(course);
-        return LessonMapper.mapToDto(lessonRepository.save(lesson));
+        return lessonMapper.mapToDto(lessonRepository.save(lesson));
     }
 
     @Override
