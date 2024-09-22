@@ -72,9 +72,9 @@ public class ErrorHandler {
     }
 
 
-    record ApiError(String status, String reason, String message,
+    public record ApiError(String status, String reason, String message,
                     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime timestamp) {
-        ApiError(String status, String reason, String message, LocalDateTime timestamp) {
+        public ApiError(String status, String reason, String message, LocalDateTime timestamp) {
             this.status = status;
             this.reason = reason;
             this.message = message;

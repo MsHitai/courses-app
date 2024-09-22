@@ -1,8 +1,8 @@
 package ru.trush.courses.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.trush.courses.dto.CourseDto;
 import ru.trush.courses.dto.CourseWithUsersDto;
@@ -15,16 +15,12 @@ import java.util.List;
  * Handles requests related to courses.
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/courses")
 @Slf4j
 public class CourseController {
 
     private final CourseService courseService;
-
-    @Autowired
-    public CourseController(CourseService courseService) {
-        this.courseService = courseService;
-    }
 
     /**
      * Assigns a user to a course.
@@ -33,7 +29,7 @@ public class CourseController {
      * @param userId   the user id
      * @return {@link CourseDto} the course
      */
-    @PostMapping("/{courseId}/assign")
+    @PostMapping("/courses/{courseId}/assign")
     public CourseDto assignUser(@PathVariable() Long courseId, @RequestParam("userId") Long userId) {
         log.info("Received POST request to assign user with id {} to the course by id {}", userId, courseId);
         return courseService.assignUser(courseId, userId);
@@ -84,6 +80,7 @@ public class CourseController {
      * @return {@link List<CourseDto>} the list of courses
      */
     @GetMapping()
+    @ModelAttribute("courses")
     public List<CourseDto> findAllCourses() {
         log.info("Received GET request to find all courses");
         return courseService.findAllCourses();
