@@ -13,7 +13,6 @@ import ru.trush.courses.repository.LessonRepository;
 import ru.trush.courses.service.LessonService;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
 
@@ -23,6 +22,7 @@ public class LessonServiceImpl implements LessonService {
     private final LessonMapper lessonMapper;
 
     @Override
+    @Transactional
     public LessonDto addLesson(Long courseId, LessonDto dto) {
         Course course = checkFullCourse(courseId);
         Lesson lesson = lessonMapper.mapToLesson(dto);
@@ -33,6 +33,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    @Transactional
     public LessonDto updateLesson(Long courseId, Long lessonId, LessonDto dto) {
         Course course = checkCourseId(courseId);
         Lesson lesson = checkLessonId(lessonId);
@@ -43,6 +44,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    @Transactional
     public void deleteLesson(Long courseId, Long lessonId) {
         checkCourseId(courseId);
         checkLessonId(lessonId);
