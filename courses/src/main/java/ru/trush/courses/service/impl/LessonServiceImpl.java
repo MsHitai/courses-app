@@ -28,7 +28,6 @@ public class LessonServiceImpl implements LessonService {
         Lesson lesson = lessonMapper.mapToLesson(dto);
         lesson.setCourse(course);
         course.getLessons().add(lesson);
-        courseRepository.save(course);
         return lessonMapper.mapToDto(lessonRepository.save(lesson));
     }
 
