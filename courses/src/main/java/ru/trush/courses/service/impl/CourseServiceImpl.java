@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
@@ -34,6 +33,7 @@ public class CourseServiceImpl implements CourseService {
     private final UserMapper userMapper;
 
     @Override
+    @Transactional
     public CourseDto assignUser(Long courseId, Long userId) {
         User user = checkUserId(userId);
         Course course = checkFullCourse(courseId);
@@ -46,6 +46,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public CourseDto addCourse(CourseDto dto) {
         List<Lesson> lessons = dto.getLessons().stream().map(lessonMapper::mapToLesson).toList();
         Course course = courseMapper.mapToCourse(dto, lessons);
@@ -53,6 +54,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public CourseDto updateCourse(Long courseId, CourseDto dto) {
         checkCourseId(courseId);
         List<Lesson> lessons = dto.getLessons().stream().map(lessonMapper::mapToLesson).toList();
@@ -61,6 +63,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CourseWithUsersDto findCourseById(Long courseId) {
         Course course = checkFullCourse(courseId);
         List<LessonDto> lessons = course.getLessons().stream().map(lessonMapper::mapToDto).toList();
@@ -69,6 +72,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CourseDto> findAllCourses() {
         return courseRepository.findAll().stream()
                 .map(courseMapper::mapToDto)
